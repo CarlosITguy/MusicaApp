@@ -8,7 +8,10 @@
 import UIKit
 
 class TopMusicViewController: UIViewController {
-    let SongsUrl : String = "https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/albums.json"
+    var results : [Songs]?
+    var state : [String : Bool]?
+    let songsUrl : String =
+    "https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/albums.json"
     var collectionView1 : UICollectionView?
     
     override func viewDidLoad() {
@@ -17,9 +20,17 @@ class TopMusicViewController: UIViewController {
         setUpCV()
 
         view.addSubview(self.collectionView1!)
+// "Remember this is to go in the view model also de variables"
+        Network().fetchMainStruct(url1: self.songsUrl) { mainStruct in
+//            print(mainStruct?.feed.results[1].genres)
+            guard let mainStruct = mainStruct?.feed.results else {return}
+            
+            self.results = mainStruct
+            DispatchQueue.main.async {
+                self.collectionView1?.reloadData()
 
-        Network().fetchMainStruct(url1: self.SongsUrl) { mainStruct in
-            print(mainStruct)
+            }
+            
         }
         
     }
@@ -61,18 +72,21 @@ extension TopMusicViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 10
+        return self.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cel  = self.collectionView1?.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MusicCollectionViewCell  else {return UICollectionViewCell ()}
-        
-        
+        cel.songNameLabel.text = self.results?[indexPath.row].name
+        cel.songImage.image = UIImage(named: "ImgDemo2" )
+        cel.likeButtom.isOn = true
+        print(cel.likeButtom.isOn == true)
         return cel
         
     }
-    
-    
+}
+
+extension TopMusicViewController : UICollectionViewDelegate{
     
     
 }
