@@ -12,6 +12,10 @@
 		02272211292D8AD5006B620A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02272210292D8AD5006B620A /* DetailViewController.swift */; };
 		02272213292D8AFD006B620A /* MusicStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02272212292D8AFD006B620A /* MusicStructure.swift */; };
 		02272215292D8B6C006B620A /* MusicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02272214292D8B6C006B620A /* MusicCollectionViewCell.swift */; };
+		0227224B2933E8AC006B620A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227224A2933E8AC006B620A /* NetworkManager.swift */; };
+		0227224E2933EBB6006B620A /* NetworkManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227224D2933EBB6006B620A /* NetworkManagerType.swift */; };
+		0227225029341823006B620A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227224F29341823006B620A /* NetworkError.swift */; };
+		0227225229344830006B620A /* NetworkManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227225129344830006B620A /* NetworkManager2.swift */; };
 		0279F3A8292D08EB0066602B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279F3A7292D08EB0066602B /* AppDelegate.swift */; };
 		0279F3AA292D08EB0066602B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279F3A9292D08EB0066602B /* SceneDelegate.swift */; };
 		0279F3AF292D08EB0066602B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0279F3AD292D08EB0066602B /* Main.storyboard */; };
@@ -26,6 +30,10 @@
 		02272210292D8AD5006B620A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		02272212292D8AFD006B620A /* MusicStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicStructure.swift; sourceTree = "<group>"; };
 		02272214292D8B6C006B620A /* MusicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCollectionViewCell.swift; sourceTree = "<group>"; };
+		0227224A2933E8AC006B620A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		0227224D2933EBB6006B620A /* NetworkManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerType.swift; sourceTree = "<group>"; };
+		0227224F29341823006B620A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		0227225129344830006B620A /* NetworkManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager2.swift; sourceTree = "<group>"; };
 		0279F3A4292D08EB0066602B /* MusicAppMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicAppMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0279F3A7292D08EB0066602B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0279F3A9292D08EB0066602B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,19 +58,12 @@
 		02272206292D8533006B620A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0227220C292D8889006B620A /* TopMusicViewController.swift */,
 				02272214292D8B6C006B620A /* MusicCollectionViewCell.swift */,
+				02272210292D8AD5006B620A /* DetailViewController.swift */,
+				0227220E292D889B006B620A /* FavViewController.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		02272207292D8534006B620A /* View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				0227220C292D8889006B620A /* TopMusicViewController.swift */,
-				0227220E292D889B006B620A /* FavViewController.swift */,
-				02272210292D8AD5006B620A /* DetailViewController.swift */,
-			);
-			path = "View Controller";
 			sourceTree = "<group>";
 		};
 		02272208292D8534006B620A /* Model */ = {
@@ -76,8 +77,28 @@
 		02272209292D8575006B620A /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				0279F3A9292D08EB0066602B /* SceneDelegate.swift */,
+				0279F3A7292D08EB0066602B /* AppDelegate.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		022722482933DE28006B620A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		022722492933E880006B620A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0227224A2933E8AC006B620A /* NetworkManager.swift */,
+				0227224D2933EBB6006B620A /* NetworkManagerType.swift */,
+				0227224F29341823006B620A /* NetworkError.swift */,
+				0227225129344830006B620A /* NetworkManager2.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		0279F39B292D08EB0066602B = {
@@ -99,12 +120,11 @@
 		0279F3A6292D08EB0066602B /* MusicAppMVVM */ = {
 			isa = PBXGroup;
 			children = (
+				022722492933E880006B620A /* Network */,
+				022722482933DE28006B620A /* ViewModel */,
 				02272209292D8575006B620A /* Service */,
-				02272207292D8534006B620A /* View Controller */,
 				02272208292D8534006B620A /* Model */,
 				02272206292D8533006B620A /* View */,
-				0279F3A7292D08EB0066602B /* AppDelegate.swift */,
-				0279F3A9292D08EB0066602B /* SceneDelegate.swift */,
 				0279F3AD292D08EB0066602B /* Main.storyboard */,
 				0279F3B3292D08ED0066602B /* Assets.xcassets */,
 				0279F3B5292D08ED0066602B /* LaunchScreen.storyboard */,
@@ -185,14 +205,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0227224B2933E8AC006B620A /* NetworkManager.swift in Sources */,
 				02272215292D8B6C006B620A /* MusicCollectionViewCell.swift in Sources */,
 				0279F3B2292D08EB0066602B /* MusicAppMVVM.xcdatamodeld in Sources */,
 				02272213292D8AFD006B620A /* MusicStructure.swift in Sources */,
 				0279F3A8292D08EB0066602B /* AppDelegate.swift in Sources */,
+				0227224E2933EBB6006B620A /* NetworkManagerType.swift in Sources */,
 				0227220D292D8889006B620A /* TopMusicViewController.swift in Sources */,
 				02272211292D8AD5006B620A /* DetailViewController.swift in Sources */,
 				0227220F292D889B006B620A /* FavViewController.swift in Sources */,
+				0227225029341823006B620A /* NetworkError.swift in Sources */,
 				0279F3AA292D08EB0066602B /* SceneDelegate.swift in Sources */,
+				0227225229344830006B620A /* NetworkManager2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

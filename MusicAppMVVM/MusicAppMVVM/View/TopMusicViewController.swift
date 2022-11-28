@@ -8,19 +8,29 @@
 import UIKit
 
 class TopMusicViewController: UIViewController {
-    
-     var collectionView1 : UICollectionView?
+    let SongsUrl : String = "https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/albums.json"
+    var collectionView1 : UICollectionView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpCV()
-        
+
         view.addSubview(self.collectionView1!)
+
+        Network().fetchMainStruct(url1: self.SongsUrl) { mainStruct in
+            print(mainStruct)
+        }
         
     }
+    
+    
     func setUpCV(){
         let layoutCV = UICollectionViewFlowLayout()
+        
+        layoutCV.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layoutCV.sectionInset = .init(top: 8, left: 8, bottom: 8, right: 8)
+        
 //        layoutCV.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCV)
@@ -46,7 +56,7 @@ extension TopMusicViewController : UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
