@@ -50,7 +50,7 @@
         <scene sceneID="dOR-Tg-B4g">
             <objects>
                 <viewController id="Eb0-wO-Mie" customClass="DetailViewController" customModule="MusicAppMVVM" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="41o-Ag-vqg" customClass="D">
+                    <view key="view" contentMode="scaleToFill" id="41o-Ag-vqg">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="tq0-Lk-0pB"/>
@@ -82,7 +82,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zDm-K3-IMM"/>
+        <segue reference="Fjh-6E-RYp"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

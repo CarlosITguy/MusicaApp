@@ -46,11 +46,12 @@ class TopMusicViewController: UIViewController {
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCV)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .gray
         collectionView.register(MusicCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         view.addSubview(collectionView)
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
@@ -87,6 +88,18 @@ extension TopMusicViewController : UICollectionViewDataSource {
 }
 
 extension TopMusicViewController : UICollectionViewDelegate{
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        print("\(indexPath.row)")
+        
+        self.performSegue(withIdentifier: "normalSegue", sender: self)
+        let vc = DetailViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        guard let vc = storyboard.instantiateViewController(withIdentifier: "DetailTableViewcotroller") as? DetailViewController else { return }
+//
+      
+        
+    }
     
 }
