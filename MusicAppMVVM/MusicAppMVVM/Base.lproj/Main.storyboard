@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--Favorits-->
         <scene sceneID="HZn-nb-c9Y">
             <objects>
                 <viewController id="pit-2q-FIB" customClass="FavViewController" customModule="MusicAppMVVM" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,7 +18,7 @@
                         <viewLayoutGuide key="safeArea" id="wPd-Pq-zq6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="mhS-2a-qVP"/>
+                    <tabBarItem key="tabBarItem" title="Favorits" id="mhS-2a-qVP"/>
                     <connections>
                         <segue destination="Eb0-wO-Mie" kind="show" identifier="FavsSegue" id="zDm-K3-IMM"/>
                     </connections>
@@ -27,7 +27,7 @@
             </objects>
             <point key="canvasLocation" x="-1494" y="297"/>
         </scene>
-        <!--Item 1-->
+        <!--Top Music-->
         <scene sceneID="K13-23-9kD">
             <objects>
                 <viewController id="yW2-em-t7B" customClass="TopMusicViewController" customModule="MusicAppMVVM" customModuleProvider="target" sceneMemberID="viewController">
@@ -37,7 +37,7 @@
                         <viewLayoutGuide key="safeArea" id="aWe-lu-yFY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="udR-dI-4Zh"/>
+                    <tabBarItem key="tabBarItem" title="Top Music" id="udR-dI-4Zh"/>
                     <connections>
                         <segue destination="Eb0-wO-Mie" kind="show" identifier="normalSegue" id="Fjh-6E-RYp"/>
                     </connections>

@@ -16,6 +16,7 @@
 		0227224E2933EBB6006B620A /* NetworkManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227224D2933EBB6006B620A /* NetworkManagerType.swift */; };
 		0227225029341823006B620A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227224F29341823006B620A /* NetworkError.swift */; };
 		0227225229344830006B620A /* NetworkManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0227225129344830006B620A /* NetworkManager2.swift */; };
+		022722542934B20A006B620A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022722532934B20A006B620A /* ViewModel.swift */; };
 		0279F3A8292D08EB0066602B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279F3A7292D08EB0066602B /* AppDelegate.swift */; };
 		0279F3AA292D08EB0066602B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0279F3A9292D08EB0066602B /* SceneDelegate.swift */; };
 		0279F3AF292D08EB0066602B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0279F3AD292D08EB0066602B /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		0227224D2933EBB6006B620A /* NetworkManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerType.swift; sourceTree = "<group>"; };
 		0227224F29341823006B620A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		0227225129344830006B620A /* NetworkManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager2.swift; sourceTree = "<group>"; };
+		022722532934B20A006B620A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		0279F3A4292D08EB0066602B /* MusicAppMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicAppMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0279F3A7292D08EB0066602B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0279F3A9292D08EB0066602B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		022722482933DE28006B620A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				022722532934B20A006B620A /* ViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				02272213292D8AFD006B620A /* MusicStructure.swift in Sources */,
 				0279F3A8292D08EB0066602B /* AppDelegate.swift in Sources */,
 				0227224E2933EBB6006B620A /* NetworkManagerType.swift in Sources */,
+				022722542934B20A006B620A /* ViewModel.swift in Sources */,
 				0227220D292D8889006B620A /* TopMusicViewController.swift in Sources */,
 				02272211292D8AD5006B620A /* DetailViewController.swift in Sources */,
 				0227220F292D889B006B620A /* FavViewController.swift in Sources */,

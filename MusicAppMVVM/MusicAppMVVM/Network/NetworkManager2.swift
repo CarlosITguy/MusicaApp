@@ -42,4 +42,26 @@ final class Network{
         }
         task.resume()
     }
+    
+    func fetchImageData(path: String, completion: @escaping (Data?) -> Void)  {
+        guard let url = URL(string: path) else{
+            completion(nil)
+            return
+        }
+        
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            _ = response as? HTTPURLResponse
+                
+            if let _ = error {
+                completion(nil)
+                return
+            }
+            
+            completion(data)
+            
+        }
+        task.resume()
+//        return self.tempID!
+    }
 }

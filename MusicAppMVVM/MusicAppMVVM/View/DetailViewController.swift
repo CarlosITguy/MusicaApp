@@ -9,6 +9,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    var results1 : [Songs]?
+    var index : Int?
+    
+    
     var likeButtom : UISwitch = {
         let also = UISwitch(frame: .zero)
         also.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +50,10 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCell()
+//        self.results1 = TopMusicViewController().results
+        print("Some")
+        print(results1 as Any)
+        print(TopMusicViewController().results as Any)
 
         
     }
@@ -80,6 +88,8 @@ class DetailViewController: UIViewController {
         self.likeButtom.layer.opacity = 0.6
 //        self.likeButtom.inputViewController?.rotatingFooterView()
 //        self.likeButtom.transform = CGAffineTransformMakeRotation(-3.1416/180*90); // 90 degrees
+        
+        self.songNameLabel.text = self.results1?[self.index ?? 1].name
 
     }
    

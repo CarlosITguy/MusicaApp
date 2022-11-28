@@ -93,9 +93,11 @@ extension FavViewController : UICollectionViewDelegate{
         
         print("\(indexPath.row)")
         
-        self.performSegue(withIdentifier: "normalSegue", sender: self)
+        self.performSegue(withIdentifier: "FavsSegue", sender: self)
         let vc = DetailViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+        
+//        vc.results1 = self.results
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //        guard let vc = storyboard.instantiateViewController(withIdentifier: "DetailTableViewcotroller") as? DetailViewController else { return }
 //
