@@ -87,16 +87,10 @@ class MusicCollectionViewCell: UICollectionViewCell {
         self.likeButtom.transform = CGAffineTransformMakeRotation(-3.1416/180*90); // 90 degrees
 
     }
-    @objc func switchLike(){
-//        likeButtom.isOn = {
-//            enum
-//        case likeButtom.sta
-//            case
+//    @objc func switchLike(){
 //        
-//            
-//        }
-    
-    }
+//    
+//    }
     
     
     

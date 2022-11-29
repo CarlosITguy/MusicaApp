@@ -88,8 +88,17 @@ class DetailViewController: UIViewController {
         self.likeButtom.layer.opacity = 0.6
 //        self.likeButtom.inputViewController?.rotatingFooterView()
 //        self.likeButtom.transform = CGAffineTransformMakeRotation(-3.1416/180*90); // 90 degrees
-        
-        self.songNameLabel.text = self.results1?[self.index ?? 1].name
+        guard let ind = self.index else {return}
+        self.songNameLabel.text = self.results1?[ind].name
+        Network().fetchImageData(path: self.results1?[ind].artworkUrl100 ??  TopMusicViewController().defaultURL) { data in
+            guard let data = data else {return}
+            print(data)
+            DispatchQueue.main.async {
+                self.songImage.image = UIImage(data: data)
+
+            }
+            
+        }
 
     }
    
