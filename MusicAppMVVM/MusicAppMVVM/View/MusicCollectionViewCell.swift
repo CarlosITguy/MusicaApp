@@ -44,6 +44,7 @@ class MusicCollectionViewCell: UICollectionViewCell {
         super .init(frame: frame)
         
         self.setUpCell()
+        
     
     }
     

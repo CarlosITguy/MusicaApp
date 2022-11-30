@@ -11,7 +11,9 @@ class DetailViewController: UIViewController {
     
     var results1 : [Songs]?
     var index : Int?
-    
+    var idRecived : Int?
+    var dicIdResultsRec : [Int : Songs] = [:]
+
     
     var likeButtom : UISwitch = {
         let also = UISwitch(frame: .zero)
@@ -41,10 +43,6 @@ class DetailViewController: UIViewController {
         return image
         
     }()
-    
-    
-    
-    
     
     
     override func viewDidLoad() {
@@ -89,7 +87,7 @@ class DetailViewController: UIViewController {
 //        self.likeButtom.inputViewController?.rotatingFooterView()
 //        self.likeButtom.transform = CGAffineTransformMakeRotation(-3.1416/180*90); // 90 degrees
         guard let ind = self.index else {return}
-        self.songNameLabel.text = self.results1?[ind].name
+        self.songNameLabel.text = "path id\(self.results1?[ind].id ?? "2") pass id \(self.idRecived!)"
         Network().fetchImageData(path: self.results1?[ind].artworkUrl100 ??  TopMusicViewController().defaultURL) { data in
             guard let data = data else {return}
             print(data)
@@ -99,6 +97,7 @@ class DetailViewController: UIViewController {
             }
             
         }
+//        printContent(self.index)
 
     }
    
