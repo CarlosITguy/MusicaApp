@@ -64,7 +64,8 @@ class DetailViewController: UIViewController {
         name.translatesAutoresizingMaskIntoConstraints = false
         name.backgroundColor = .cyan
         name.numberOfLines = 0
-        
+        guard let date = self.results1?[self.index!].releaseDate else {return name}
+        name.text = date
         return name
         
     }()
