@@ -8,31 +8,70 @@
 import UIKit
 
 class FavViewController : UIViewController {
-    
-    var results : [Songs]?
-    var state : [String : Bool]?
-    let songsUrl : String =
-    "https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/albums.json"
     var collectionView1 : UICollectionView?
+    
+    // For the fetch
+    var results : [Songs]?
+    var dicIdResults : [Int : Songs] = [:]
+    
+    //   For the segue
+    var sendindex : Int?
+    var sendId : Int?
+    
+    //  For the like bottom
+    var Likelist : [Int : Bool] = [:]
+    
+    //    Call instance for other class
+    
+    let coreDataMusic = CoreDataMusic()
+    let myGlobaConstants = MyGlobalConstats()
+    let network = Network()
+    let musicAppViewModel = MusicAppViewModel()
+    
+    //    This part is for triing to do some variable tipe COREDATA
+    var recoverdata : [Song]?
+    
+    //    let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    lazy var Song2 : Song = {
+        let sn = Song(context: self.coreDataMusic.contexto)
+        sn.name = "LaBamba"
+        sn.id = "2"
+        coreDataMusic.mySaveContex()
+        return sn
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpCV()
-
-        view.addSubview(self.collectionView1!)
-// "Remember this is to go in the view model also de variables"
-        Network().fetchMainStruct(url1: self.songsUrl) { mainStruct in
-//            print(mainStruct?.feed.results[1].genres)
+        self.coreDataMusic.myFetchStruc()
+        print(self.coreDataMusic.recoverdata?.compactMap{$0.name}.count as Any)
+        
+        
+        
+        
+        self.network.fetchMainStruct(url1: self.myGlobaConstants.songsUrl) { mainStruct in
+            //            print(mainStruct?.feed.results[1].genres)
             guard let mainStruct = mainStruct?.feed.results else {return}
             
             self.results = mainStruct
             DispatchQueue.main.async {
                 self.collectionView1?.reloadData()
-
+                guard let imagUrl = self.results?[1].artworkUrl100 else {return}
+                print(imagUrl)
             }
             
         }
+        self.musicAppViewModel.imageData(for: 1) { Data in
+            DispatchQueue.main.async {
+                print("this is the data")
+            }
+        }
+        
+        setUpCV()
+        view.addSubview(self.collectionView1!)
         
     }
     
@@ -43,8 +82,6 @@ class FavViewController : UIViewController {
         layoutCV.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layoutCV.sectionInset = .init(top: 8, left: 8, bottom: 8, right: 8)
         
-//        layoutCV.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCV)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .gray
@@ -79,30 +116,105 @@ extension FavViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cel  = self.collectionView1?.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MusicCollectionViewCell  else {return UICollectionViewCell ()}
-        cel.songNameLabel.text = self.results?[indexPath.row].name
-        cel.songImage.image = UIImage(named: "ImgDemo2" )
-        cel.likeButtom.isOn = true
-        print(cel.likeButtom.isOn == true)
+        cel.songNameLabel.text = self.results![indexPath.row].name
+        //
+        Network().fetchImageData(path: self.results?[indexPath.row].artworkUrl100 ??  self.myGlobaConstants.defaultURL) { data in
+            guard let data = data else {return}
+            DispatchQueue.main.async {
+                cel.songImage.image = UIImage(data: data)
+            }
+            
+        }
+        guard let newVar = self.results?[indexPath.row].id else {return UICollectionViewCell()}
+        guard Int(newVar) != nil else {return UICollectionViewCell()}
+        let keyExists = self.Likelist[indexPath.row] != nil
+        
+        if keyExists{
+            //            print("The key is present in the dictionary")
+            guard let state = self.Likelist[indexPath.row] else {return UICollectionViewCell()}
+            cel.likeButtom.isOn = state
+            cel.likeButtom.isOn = self.Likelist[indexPath.row]!
+            
+            print(self.Likelist)
+            
+        } else {
+            //            print("The key is not present in the dictionary")
+            self.Likelist[indexPath.row] = false
+            self.dicIdResults[indexPath.row] = self.results?[indexPath.row]
+            cel.likeButtom.tag = indexPath.row
+            cel.likeButtom.isOn = false
+            
+            
+            
+            
+            
+            
+        }
+        
+        cel.likeButtom.addTarget(self, action: #selector(self.switchStateDidChange(_:)), for: .valueChanged)
+        
         return cel
         
     }
+    
 }
 
 extension FavViewController : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         print("\(indexPath.row)")
+        guard let uwId = self.results?[indexPath.row].id else {return}
+        self.sendId = Int(uwId)
         
+        self.sendindex = indexPath.row
         self.performSegue(withIdentifier: "FavsSegue", sender: self)
         let vc = DetailViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+        vc.results1 = results
+        vc.index = sendindex
+        vc.idRecived = sendId
+        vc.dicIdResultsRec = dicIdResults
+        vc.Likelist1 = Likelist
+    }
+    override func  prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let info = segue.destination as! DetailViewController
+        info.results1 = results
+        info.index = sendindex
+        info.idRecived = sendId
+        info.dicIdResultsRec = dicIdResults
+        info.Likelist1 = Likelist
         
+    }
+    
+    @objc func switchStateDidChange(_ sender : UISwitch)   {
+        
+        //        self.Likelist[sender.tag]!.toggle()
+        
+        if (sender.isOn == true){
+            //            print("UISwitch state is now ON")
+            self.Likelist[sender.tag]?.toggle()
+            var _ : Song = {
+                let sn = Song(context: self.coreDataMusic.contexto)
+                sn.name =  self.results![sender.tag].name
+                sn.id = self.results![sender.tag].id
+                coreDataMusic.mySaveContex()
+                return sn
+            }()
+            
+            print(sender.tag)
+            
+        }
+        else{
+            // print("UISwitch state is now Off")
+            self.Likelist[sender.tag]?.toggle()
+            
+        }
+    }
+}
 //        vc.results1 = self.results
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //        guard let vc = storyboard.instantiateViewController(withIdentifier: "DetailTableViewcotroller") as? DetailViewController else { return }
 //
-      
-        
-    }
-    
-}
+
+
+

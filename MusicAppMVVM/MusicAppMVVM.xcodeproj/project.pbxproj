@@ -24,6 +24,7 @@
 		0279F3B2292D08EB0066602B /* MusicAppMVVM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0279F3B0292D08EB0066602B /* MusicAppMVVM.xcdatamodeld */; };
 		0279F3B4292D08ED0066602B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0279F3B3292D08ED0066602B /* Assets.xcassets */; };
 		0279F3B7292D08ED0066602B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0279F3B5292D08ED0066602B /* LaunchScreen.storyboard */; };
+		02A9C63129384E73004573EF /* NetworkGlobalConstats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A9C63029384E73004573EF /* NetworkGlobalConstats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		0279F3B3292D08ED0066602B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0279F3B6292D08ED0066602B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0279F3B8292D08ED0066602B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02A9C63029384E73004573EF /* NetworkGlobalConstats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkGlobalConstats.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +66,6 @@
 			children = (
 				0227220C292D8889006B620A /* TopMusicViewController.swift */,
 				02272214292D8B6C006B620A /* MusicCollectionViewCell.swift */,
-				022722582937134E006B620A /* New Group */,
 				02272210292D8AD5006B620A /* DetailViewController.swift */,
 				0227220E292D889B006B620A /* FavViewController.swift */,
 			);
@@ -103,6 +104,7 @@
 				0227224D2933EBB6006B620A /* NetworkManagerType.swift */,
 				0227224F29341823006B620A /* NetworkError.swift */,
 				0227225129344830006B620A /* NetworkManager2.swift */,
+				02A9C63029384E73004573EF /* NetworkGlobalConstats.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -113,13 +115,6 @@
 				022722562937064A006B620A /* CoreDataMusicManager.swift */,
 			);
 			path = " CoreDataMusic ";
-			sourceTree = "<group>";
-		};
-		022722582937134E006B620A /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		0279F39B292D08EB0066602B = {
@@ -238,6 +233,7 @@
 				02272211292D8AD5006B620A /* DetailViewController.swift in Sources */,
 				0227220F292D889B006B620A /* FavViewController.swift in Sources */,
 				0227225029341823006B620A /* NetworkError.swift in Sources */,
+				02A9C63129384E73004573EF /* NetworkGlobalConstats.swift in Sources */,
 				0279F3AA292D08EB0066602B /* SceneDelegate.swift in Sources */,
 				022722572937064A006B620A /* CoreDataMusicManager.swift in Sources */,
 				0227225229344830006B620A /* NetworkManager2.swift in Sources */,
