@@ -35,17 +35,42 @@ class TopMusicViewController: UIViewController {
 //    let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
-    lazy var Song2 : Song = {
-        let sn = Song(context: self.coreDataMusic.contexto)
-        sn.name = "LaBamba"
-        sn.id = "2"
-        coreDataMusic.mySaveContex()
-        return sn
-    }()
+    private func bindf (){
+        
+        self.musicAppViewModel.refreshData = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView1?.reloadData()
+            }
+        }
+        
+    }
+        
     
+    
+//    lazy var Song2 : Song = {
+//        let sn = Song(context: self.coreDataMusic.contexto)
+//        sn.name = "LaBamba"
+//        sn.id = "2"
+//
+//        coreDataMusic.mySaveContex()
+//        return sn
+//    }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated) // N
+
+//        DispatchQueue.main.asyncAfter(deadline: .now()+2){
+//            print(self.musicAppViewModel.results1)
+//        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bindf()
+        self.musicAppViewModel.litleFunc()
+        print(self.musicAppViewModel.results1)
+
+        
         
         self.coreDataMusic.myFetchStruc()
         print(self.coreDataMusic.recoverdata?.compactMap{$0.name}.count as Any)
@@ -112,14 +137,17 @@ extension TopMusicViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.results?.count ?? 0
+//        return self.results?.count ?? 0
+        return self.musicAppViewModel.results1.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cel  = self.collectionView1?.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MusicCollectionViewCell  else {return UICollectionViewCell ()}
-        cel.songNameLabel.text = self.results![indexPath.row].name
+//        cel.songNameLabel.text = self.results![indexPath.row].name
+        cel.songNameLabel.text = self.musicAppViewModel.results1[indexPath.row].name
+
         //
-        Network().fetchImageData(path: self.results?[indexPath.row].artworkUrl100 ??  self.myGlobaConstants.defaultURL) { data in
+        Network().fetchImageData(path: self.musicAppViewModel.results1[indexPath.row].artworkUrl100 ) { data in
             guard let data = data else {return}
             DispatchQueue.main.async {
                 cel.songImage.image = UIImage(data: data)

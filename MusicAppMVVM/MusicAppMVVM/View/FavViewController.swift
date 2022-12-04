@@ -42,17 +42,15 @@ class FavViewController : UIViewController {
         return sn
     }()
     
+   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
         
-        self.coreDataMusic.myFetchStruc()
-        print(self.coreDataMusic.recoverdata?.compactMap{$0.name}.count as Any)
-        
-        
-        
-        
-        self.network.fetchMainStruct(url1: self.myGlobaConstants.songsUrl) { mainStruct in
+        let url5 = self.myGlobaConstants.songsUrl
+        self.network.fetchMainStruct(url1: url5) { mainStruct in
             //            print(mainStruct?.feed.results[1].genres)
             guard let mainStruct = mainStruct?.feed.results else {return}
             
@@ -72,6 +70,7 @@ class FavViewController : UIViewController {
         
         setUpCV()
         view.addSubview(self.collectionView1!)
+        
         
     }
     

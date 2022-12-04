@@ -7,45 +7,65 @@
 
 import Foundation
 
-//protocol  MusicAppViewModelType{
-////    func fetchMusicResults()
-////    func fetchSongImage(urlSongImg : String)->Data?
-////    func songName(for index : Int) ->String?
-//////    func bind
-//
-//}
 
 
 class MusicAppViewModel {
     typealias UpdateHandler = (() -> Void)
     let network = Network()
+    var refreshData = {() -> () in }
     let myGlobalConstants = MyGlobalConstats()
     var updateHandler: UpdateHandler?
-    var results1 : [Songs] = []
+    var results1 : [Songs] = []{
+        didSet{
+            refreshData()
+        }
+    }
     var images : [Data] = []
     
-//    func bind(completion: @escaping UpdateHandler) {
-//        print("store ref of binding in ViewModel")
-//        self.updateHandler = completion
-//    }
+//
     
-//    func fetchMusicResults(){
-////       let ViewC = self.TMAViewController
-//        self.network.fetchMainStruct(url1: self.myGlobalConstants.songsUrl) { MainsStruct in
-//            guard let MainsStruct = MainsStruct?.feed.results else {return}
-//            DispatchQueue.main.async {
-//                self.results1 = MainsStruct
-//
-//                self.updateHandler?()
-//
-//            }
-//        }
-//    }
-//    var counter : Int {
-//        guard let anonima = TopMusicViewController().results else {return Int(2)}
-//         let anonima1 = anonima.count
-//       return anonima1
-//    }
+    func litleFunc(){
+        print("View wiil appear this moment")
+        self.fetchResults(){allAboutMusic in
+//            print("\(allAboutMusic?.feed.results) we mad it work")
+            guard let results = allAboutMusic?.feed.results else {return}
+            self.results1 = results
+//            print("\(self.results1) we mad it work")
+            DispatchQueue.main.async {
+                self.refreshData()
+                TopMusicViewController().collectionView1?.reloadData()
+            }
+         
+           
+        }
+        
+        
+    }
+    
+    
+    
+    func fetchResults (returnAtCompletion : @escaping(MainsStruct?) ->Void) {
+        guard let url1 =  URL(string:self.myGlobalConstants.songsUrl ) else {return}
+        
+        URLSession.shared.dataTask(with: url1) { data, resoponse, error in
+            guard let data = data else {return}
+            
+            do{
+                returnAtCompletion(try JSONDecoder().decode(MainsStruct.self, from: data)
+                )
+            }catch{
+                print("Problems whith un perfectland")
+                returnAtCompletion(nil)
+                
+            }
+            
+            
+        }
+        .resume()
+        
+    }
+    
+    
     
     func imageData(for index: Int, completion: @escaping (Data?) -> Void) {
 //        var datta : Data?
