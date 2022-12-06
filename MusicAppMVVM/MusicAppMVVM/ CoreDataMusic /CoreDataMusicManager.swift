@@ -10,8 +10,11 @@ import CoreData
 import UIKit
 
 class CoreDataMusic {
-    let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var recoverdata : [Song]?
+    
+    let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
     lazy var persistantContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "MusicAppMVVM")
         container.loadPersistentStores { description, error in
@@ -21,7 +24,9 @@ class CoreDataMusic {
         }
         return container
     }()
-
+    
+    
+    
     func saveSong() {
         let context = self.persistantContainer.viewContext
         if context.hasChanges {
@@ -33,16 +38,9 @@ class CoreDataMusic {
             }
         }
     }
-    func delete(song: Song) {
-            do{
-                try contexto.delete(NSManagedObject() )
-                print("The song was safe")
-                
-            }catch{
-                print("error")
-            }
-            
-        
+    func delete() {
+        contexto.delete(NSManagedObject())
+        self.mySaveContex()
     }
     
     func makeDataStruct() -> Song {
@@ -80,6 +78,36 @@ class CoreDataMusic {
             
         }
     }
+    func delAll() {
+        let storeContainer =
+        self.persistantContainer.persistentStoreCoordinator
+        
+        // Delete each existing persistent store
+        do {
+            for store in storeContainer.persistentStores {
+                try storeContainer.destroyPersistentStore(
+                    at: store.url!,
+                    ofType: store.type,
+                    options: nil
+                )
+            }}catch{print("No se puede borrar todo")}
+        
+        // Re-create the persistent container
+        self.persistantContainer = NSPersistentContainer(
+            name: "MusicAppMVVM" // the name of
+            // a .xcdatamodeld file
+        )
+        
+        // Calling loadPersistentStores will re-create the
+        // persistent stores
+        self.persistantContainer.loadPersistentStores {
+            (store, error) in
+            // Handle errors
+        }
+        
+    }
+    
+    
     
 //    func makeFavStruct(index : Int) -> Song {
 //        let song1 = Song(context: self.contexto)
@@ -89,9 +117,37 @@ class CoreDataMusic {
 //        self.mySaveContex()
 //        self.myFetchStruc()
 //        //        printContent(self.recoverdata?.compactMap{$0.id})
-//        
+//
 //        return song1
-//        
+//
 //    }
 ////
 }
+
+
+
+//let storeContainer =
+//self.persistentContainer.persistentStoreCoordinator
+//
+//// Delete each existing persistent store
+//do {
+//    for store in storeContainer.persistentStores {
+//        try storeContainer.destroyPersistentStore(
+//            at: store.url!,
+//            ofType: store.type,
+//            options: nil
+//        )
+//    }}catch{print("No se puede borrar todo")}
+//
+//// Re-create the persistent container
+//self.persistentContainer = NSPersistentContainer(
+//    name: "MusicAppMVVM" // the name of
+//    // a .xcdatamodeld file
+//)
+//
+//// Calling loadPersistentStores will re-create the
+//// persistent stores
+//self.persistentContainer.loadPersistentStores {
+//    (store, error) in
+//    // Handle errors
+//}

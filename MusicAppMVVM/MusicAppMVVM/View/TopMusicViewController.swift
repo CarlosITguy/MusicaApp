@@ -9,31 +9,24 @@ import UIKit
 import CoreData
 
 class TopMusicViewController: UIViewController {
+    
+    
+    
     var collectionView1 : UICollectionView?
     
-    // For the fetch
-    var results : [Songs]?
     var dicIdResults : [Int : Songs] = [:]
-    
     //   For the segue
     var sendindex : Int?
     var sendId : Int?
-    
     //  For the like bottom
     var Likelist : [Int : Bool] = [:]
     
     //    Call instance for other class
-    
     let coreDataMusic = CoreDataMusic()
     let myGlobaConstants = MyGlobalConstats()
     let network = Network()
     let musicAppViewModel = MusicAppViewModel()
-    
     //    This part is for triing to do some variable tipe COREDATA
-    var recoverdata : [Song]?
-        
-//    let contexto = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     
     private func bindf (){
         
@@ -42,59 +35,20 @@ class TopMusicViewController: UIViewController {
                 self?.collectionView1?.reloadData()
             }
         }
-        
-    }
-        
-    
-    
-//    lazy var Song2 : Song = {
-//        let sn = Song(context: self.coreDataMusic.contexto)
-//        sn.name = "LaBamba"
-//        sn.id = "2"
-//
-//        coreDataMusic.mySaveContex()
-//        return sn
-//    }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated) // N
-
-//        DispatchQueue.main.asyncAfter(deadline: .now()+2){
-//            print(self.musicAppViewModel.results1)
-//        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        self.coreDataMusic.delAll()
+        
+        
         self.bindf()
         self.musicAppViewModel.litleFunc()
-        print(self.musicAppViewModel.results1)
-
-        
-        
         self.coreDataMusic.myFetchStruc()
         print(self.coreDataMusic.recoverdata?.compactMap{$0.name}.count as Any)
-        
-       
-        
-        
-        self.network.fetchMainStruct(url1: self.myGlobaConstants.songsUrl) { mainStruct in
-            //            print(mainStruct?.feed.results[1].genres)
-            guard let mainStruct = mainStruct?.feed.results else {return}
-            
-            self.results = mainStruct
-            DispatchQueue.main.async {
-                self.collectionView1?.reloadData()
-                guard let imagUrl = self.results?[1].artworkUrl100 else {return}
-                print(imagUrl)
-            }
-            
-        }
-        self.musicAppViewModel.imageData(for: 1) { Data in
-            DispatchQueue.main.async {
-                print("this is the data")
-            }
-        }
+        print(self.coreDataMusic.recoverdata?[1])
         
         setUpCV()
         view.addSubview(self.collectionView1!)
@@ -130,22 +84,18 @@ class TopMusicViewController: UIViewController {
 }
 extension TopMusicViewController : UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-//        return self.results?.count ?? 0
+        //        return self.results?.count ?? 0
         return self.musicAppViewModel.results1.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cel  = self.collectionView1?.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MusicCollectionViewCell  else {return UICollectionViewCell ()}
-//        cel.songNameLabel.text = self.results![indexPath.row].name
+        
         cel.songNameLabel.text = self.musicAppViewModel.results1[indexPath.row].name
-
+        
         //
         Network().fetchImageData(path: self.musicAppViewModel.results1[indexPath.row].artworkUrl100 ) { data in
             guard let data = data else {return}
@@ -154,34 +104,42 @@ extension TopMusicViewController : UICollectionViewDataSource {
             }
             
         }
-        guard let newVar = self.results?[indexPath.row].id else {return UICollectionViewCell()}
-        guard Int(newVar) != nil else {return UICollectionViewCell()}
+        if self.Likelist.count <= indexPath.row {
+            print("we not found # \(indexPath.row)")
+//            Likelist[indexPath.row] = false
+//            cel.likeButtom.tag = indexPath.row
+//            self.dicIdResults[indexPath.row] = self.musicAppViewModel.results1[indexPath.row]
+//
+        }else {
+            
+            print("we found likelist # \(indexPath.row)")
+            
+        }
+        cel.likeButtom.isOn = Likelist[indexPath.row] ?? false
+        
+        
+        
         let keyExists = self.Likelist[indexPath.row] != nil
         
         if keyExists{
-//            print("The key is present in the dictionary")
+            //            print("The key is present in the dictionary")
             guard let state = self.Likelist[indexPath.row] else {return UICollectionViewCell()}
             cel.likeButtom.isOn = state
-            cel.likeButtom.isOn = self.Likelist[indexPath.row]!
+           
             
             print(self.Likelist)
             
         } else {
-//            print("The key is not present in the dictionary")
+            //            print("The key is not present in the dictionary")
             self.Likelist[indexPath.row] = false
-            self.dicIdResults[indexPath.row] = self.results?[indexPath.row]
+            self.dicIdResults[indexPath.row] = self.musicAppViewModel.results1[indexPath.row]
             cel.likeButtom.tag = indexPath.row
             cel.likeButtom.isOn = false
-            
-             
-            
-            
-            
             
         }
         
         cel.likeButtom.addTarget(self, action: #selector(self.switchStateDidChange(_:)), for: .valueChanged)
-                
+        
         return cel
         
     }
@@ -191,23 +149,16 @@ extension TopMusicViewController : UICollectionViewDataSource {
 extension TopMusicViewController : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        print("\(indexPath.row)")
-        guard let uwId = self.results?[indexPath.row].id else {return}
+        //        print("\(indexPath.row)")
+        let uwId = self.musicAppViewModel.results1[indexPath.row].id
         self.sendId = Int(uwId)
-        
         self.sendindex = indexPath.row
         self.performSegue(withIdentifier: "normalSegue", sender: self)
-        let vc = DetailViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-        vc.results1 = results
-        vc.index = sendindex
-        vc.idRecived = sendId
-        vc.dicIdResultsRec = dicIdResults
-        vc.Likelist1 = Likelist
+        
     }
     override func  prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let info = segue.destination as! DetailViewController
-        info.results1 = results
+        info.results1 =  self.musicAppViewModel.results1
         info.index = sendindex
         info.idRecived = sendId
         info.dicIdResultsRec = dicIdResults
@@ -215,55 +166,11 @@ extension TopMusicViewController : UICollectionViewDelegate{
         
     }
     
+    
     @objc func switchStateDidChange(_ sender : UISwitch)   {
+        self.musicAppViewModel.forSwitch(senderIsOn: sender.isOn, senderTag: sender.tag)
+        self.Likelist[sender.tag]?.toggle()
         
-//        self.Likelist[sender.tag]!.toggle()
-
-        if (sender.isOn == true){
-            //            print("UISwitch state is now ON")
-            self.Likelist[sender.tag]?.toggle()
-            var _ : Song = {
-               let sn = Song(context: self.coreDataMusic.contexto)
-                sn.name =  self.results![sender.tag].name
-                sn.id = self.results![sender.tag].id
-               coreDataMusic.mySaveContex()
-               return sn
-            }()
-
-            print(sender.tag)
-
-        }
-        else{
-            // print("UISwitch state is now Off")
-            self.Likelist[sender.tag]?.toggle()
-            
-        }
     }
-//    func makeFavStruct(indx : Int) -> Song {
-//        let song1 = Song(context: self.coreDataMusic.contexto)
-//        song1.name = self.results?[indx].name
-//        song1.id = self.results?[indx].id
-////        self.saveSong()
-//        self.coreDataMusic.mySaveContex()
-//        self.coreDataMusic.myFetchStruc()
-//        //        printContent(self.recoverdata?.compactMap{$0.id})
-//
-//        return song1
-//
-//    }
-    func deleteAllData(_ entity:String) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-        fetchRequest.returnsObjectsAsFaults = false
-        do {
-            let results = try self.coreDataMusic.contexto.fetch(fetchRequest)
-            for object in results {
-                guard let objectData = object as? NSManagedObject else {continue}
-                self.coreDataMusic.contexto.delete(objectData)
-            }
-        } catch let error {
-            print("Detele all data in \(entity) error :", error)
-        }
-    }
+    
 }
-
-

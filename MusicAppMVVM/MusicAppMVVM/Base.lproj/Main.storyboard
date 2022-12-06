@@ -11,7 +11,7 @@
         <!--Favorits-->
         <scene sceneID="HZn-nb-c9Y">
             <objects>
-                <viewController id="pit-2q-FIB" customClass="FavViewController" customModule="MusicAppMVVM" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pit-2q-FIB" customClass="FavMusicViewController" customModule="MusicAppMVVM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CKH-xy-uME">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -82,7 +82,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Fjh-6E-RYp"/>
+        <segue reference="zDm-K3-IMM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

@@ -12,6 +12,7 @@ import Foundation
 class MusicAppViewModel {
     typealias UpdateHandler = (() -> Void)
     let network = Network()
+    let coreDataMusic = CoreDataMusic()
     var refreshData = {() -> () in }
     let myGlobalConstants = MyGlobalConstats()
     var updateHandler: UpdateHandler?
@@ -20,65 +21,104 @@ class MusicAppViewModel {
             refreshData()
         }
     }
+    var Likelist : [Int : Bool] = [:]{
+        didSet{
+            refreshData()
+        }
+    }
+
     var images : [Data] = []
     
 //
     
     func litleFunc(){
         print("View wiil appear this moment")
-        self.fetchResults(){allAboutMusic in
-//            print("\(allAboutMusic?.feed.results) we mad it work")
+        self.network.fetchResults(){allAboutMusic in
             guard let results = allAboutMusic?.feed.results else {return}
             self.results1 = results
-//            print("\(self.results1) we mad it work")
-            DispatchQueue.main.async {
-                self.refreshData()
-                TopMusicViewController().collectionView1?.reloadData()
-            }
+        }
+
+    }
+    
+    
+    // Let try
+    
+    func sendinfor(){
          
-           
-        }
-        
-        
     }
     
-    
-    
-    func fetchResults (returnAtCompletion : @escaping(MainsStruct?) ->Void) {
-        guard let url1 =  URL(string:self.myGlobalConstants.songsUrl ) else {return}
-        
-        URLSession.shared.dataTask(with: url1) { data, resoponse, error in
-            guard let data = data else {return}
-            
-            do{
-                returnAtCompletion(try JSONDecoder().decode(MainsStruct.self, from: data)
-                )
-            }catch{
-                print("Problems whith un perfectland")
-                returnAtCompletion(nil)
-                
-            }
-            
-            
+    func forSwitch(senderIsOn : Bool, senderTag:Int) {
+
+        //        self.Likelist[sender.tag]!.toggle()
+
+        if (senderIsOn == true){
+            print("UISwitch state is now ON")
+            let generes = self.results1[senderTag].genres.compactMap{$0.name}
+            let generesStr = String(describing: generes)
+            var _ : Song = {
+                let sn = Song(context: coreDataMusic.contexto)
+                sn.name = self.results1[senderTag].name
+                sn.id = self.results1[senderTag].id
+                sn.releaseDate = self.results1[senderTag].releaseDate
+                sn.imgUrl = self.results1[senderTag].artworkUrl100
+                sn.genres = generesStr
+                sn.like = true
+                sn.kind = self.results1[senderTag].kind
+//                self.coreDataMusic.contexto.delete(sn)
+                self.coreDataMusic.mySaveContex()//                self.Likelist[senderTag]?.toggle()
+                return sn
+            }()
         }
-        .resume()
-        
+        else{
+             print("UISwitch state is now Off")
+//            self.Likelist[senderTag]?.toggle()
+
+        }
     }
     
-    
-    
-    func imageData(for index: Int, completion: @escaping (Data?) -> Void) {
-//        var datta : Data?
-//        guard index < self.counter else { return }
-        guard let urlImgDat = TopMusicViewController().results?[index].artworkUrl100 else {return}
-        
-        self.network.fetchImageData(path: urlImgDat) { Data in
-            guard let Data = Data else {return}
-            self.images[index] = Data
-            
-        }
-        
-    }
-        
     
 }
+
+//    func deleteAllData(_ entity:String) {
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+//        fetchRequest.returnsObjectsAsFaults = false
+//        do {
+//            let results = try self.coreDataMusic.contexto.fetch(fetchRequest)
+//            for object in results {
+//                guard let objectData = object as? NSManagedObject else {continue}
+//                self.coreDataMusic.contexto.delete(objectData)
+//            }
+//        } catch let error {
+//            print("Detele all data in \(entity) error :", error)
+//        }
+//    }
+
+
+
+//    lazy var Song2 : Song = {
+//        let sn = Song(context: self.coreDataMusic.contexto)
+//        sn.name = "LaBamba"
+//        sn.id = "2"
+//
+//        coreDataMusic.mySaveContex()
+//        return sn
+//    }()
+
+//if (sender.isOn == true){
+//            //            print("UISwitch state is now ON")
+//
+////            self.Likelist[sender.tag]?.toggle()
+//            var _ : Song = {
+//                let sn = Song(context: self.coreDataMusic.contexto)
+//                sn.name = self.musicAppViewModel.results1[sender.tag].name
+//                sn.id = self.musicAppViewModel.results1[sender.tag].id
+//                coreDataMusic.mySaveContex()
+//                return sn
+//            }()
+//
+//        }
+//        else{
+//            // print("UISwitch state is now Off")
+//            self.Likelist[sender.tag]?.toggle()
+//
+//        }

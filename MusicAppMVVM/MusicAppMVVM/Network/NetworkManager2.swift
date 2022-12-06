@@ -64,4 +64,21 @@ final class Network{
         task.resume()
 //        return self.tempID!
     }
+    
+    func fetchResults (returnAtCompletion : @escaping(MainsStruct?) ->Void) {
+        guard let url1 =  URL(string: MyGlobalConstats().songsUrl ) else {return}
+        
+        URLSession.shared.dataTask(with: url1) { data, resoponse, error in
+            guard let data = data else {return}
+            
+            do{
+                returnAtCompletion(try JSONDecoder().decode(MainsStruct.self, from: data)
+                )
+            }catch{
+                print("Problems whith un perfectland")
+                returnAtCompletion(nil)
+            }
+        }
+        .resume()
+    }
 }
