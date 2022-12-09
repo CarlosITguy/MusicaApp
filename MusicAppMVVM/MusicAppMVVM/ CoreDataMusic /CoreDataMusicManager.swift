@@ -27,33 +27,24 @@ class CoreDataMusic {
     
     
     
-    func saveSong() {
-        let context = self.persistantContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-                print("The Song was fully saved")
-            } catch {
-                print(error)
-            }
-        }
-    }
+    
     func delete() {
         contexto.delete(NSManagedObject())
         self.mySaveContex()
     }
     
-    func makeDataStruct() -> Song {
-        let song1 = Song(context: self.contexto)
-        song1.name = "name1"
-        song1.id = "1"
-        CoreDataMusic().saveSong()
-        
-        return song1
-        
-    }
+//    func makeDataStruct() -> Song {
+//        let song1 = Song(context: self.contexto)
+//        song1.name = "name1"
+//        song1.id = "1"
+//        self.mySaveContex()
+//
+//        return song1
+//
+//    }
     
     func mySaveContex(){
+        print("my save is runing")
         do{
             try contexto.save()
             print("The song was safe")
